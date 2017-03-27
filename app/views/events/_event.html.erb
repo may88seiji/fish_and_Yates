@@ -1,0 +1,27 @@
+<div class="question_content top_content">
+  <header class="question_header">
+    <div class="question_image icon_image" style="background-image: url(<%= event.user.avatar.url(:medium) %>);"></div>
+    <div class="question_user_info user_info">
+      <span><%= link_to event.user.name, user_path(event.user) %></span>
+      <time><%= time_ago_in_words event.created_at %></time>
+    </div>
+  </header>
+  <div class="question_body">
+    <div class="question_box">
+      <span class="q">E</span>
+      <span class="question_text"><%= event.text %></span>
+    </div>
+        <div class="questioned">
+      <%= link_to "参加者一覧", event_path(event) %>
+
+    </div>
+    <% unless @event.participants.exists?(user_id: current_user.id) %>
+        <%= form_for(@participant) do |f| %>
+          <%= f.hidden_field :event_id , :value => event.id %>
+          <%= f.submit "参加する" ,:class=>"question_submit" %>
+        <% end %>
+    <% else %>
+          <h4>※参加済み※</h4>
+    <% end %>
+  </div>
+</div>

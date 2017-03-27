@@ -1,0 +1,21 @@
+<div class="row form">
+  <div class="col-lg-12">
+    <h3><span>E</span><%= @event.text %></h3>
+    <div class="group_action panel panel-default">
+      <div class="panel-body">
+        <% unless @event.participants.exists?(user_id: current_user.id) %>
+            <%= form_for(@participant) do |f| %>
+              <%= f.hidden_field :event_id , :value => @event.id %>
+              <%= f.submit "参加する" %>
+            <% end %>
+        <% else %>
+          <h4>※参加済み※</h4>
+        <% end %>
+      </div>
+    </div>
+    <% if @event.participants.present? %>
+      <h3><span>A</span>イベントの参加者</h3>
+      <%= render partial: "events/participant", collection: @participants %>
+    <% end %>
+  </div>
+</div>
